@@ -1,14 +1,20 @@
-//contians application configuration
+require("dotenv").config();
 
-const admin = require("firebase-admin"); //provides unlimited permission to the firebase(fire store)
+const admin = require("firebase-admin");
 
-const serviceAccount = require("./kasiconnect-18564-firebase-adminsdk-fbsvc-d7420c686c.json"); //server's passport
+const serviceAccount = {
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+  privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+};
+
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount), // initialize firebase
+  credential: admin.credential.cert(serviceAccount),
 });
 
-const db = admin.firestore(); //creates database, makes Express connect to firestore
+const db = admin.firestore();
 const auth = admin.auth();
+
 module.exports = {
   db,
   auth,

@@ -4,7 +4,7 @@ const authService = require("../services/authService");
 exports.register = async (req, res) => {
   //make register accessable publicly
   try {
-    const { fullName, email, passowrd, role } = req.body;
+    const { fullName, email, password, role } = req.body;
     const user = await authService.registerUser(
       fullName,
       email,

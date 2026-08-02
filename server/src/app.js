@@ -1,8 +1,10 @@
 const express = require("express"); //load the express library from node-modules
-const db = require("./config/firebase");
+const { db } = require("./config/firebase");
 const app = express(); // create the Express application(server)
 app.use(express.json()); //JSON parsing (convert json to something firestor would understand)
+const authRoutes = require("./routes/authRoutes");
 
+app.use("/api/auth", authRoutes);
 //testing the endpoint
 app.get("/test-db", async (req, res) => {
   try {
@@ -13,7 +15,7 @@ app.get("/test-db", async (req, res) => {
     res.status(200).send("Firestore connection successful");
   } catch (error) {
     console.error(error);
-    res.status(500).send.apply("Database Connection failed");
+    res.status(500).send("Database Connection failed");
   }
 });
 
