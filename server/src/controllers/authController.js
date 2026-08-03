@@ -13,7 +13,7 @@ exports.register = async (req, res) => {
     );
     res.status(201).json({
       //201 creation code
-      message: "User registerd successfully",
+      message: "User registered successfully",
       user,
     });
   } catch (error) {
@@ -21,4 +21,12 @@ exports.register = async (req, res) => {
       message: error.message,
     });
   }
+};
+
+//for now !!
+exports.getCurrentUser = async (req, res) => {
+  res.status(200).json({
+    message: "Current user endpoint works!",
+    user: req.user,
+  });
 };
