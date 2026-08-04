@@ -1,9 +1,11 @@
 const { auth, db } = require("../config/firebase");
 
-exports.registerUser = async (fullName, email, password, role) => {
+exports.registerUser = async (userData) => {
+  const { fullName, email, password, role } = userData;
   //create the user auth
   try {
     const userRecord = await auth.createUser({
+      fullName,
       email,
       password,
       displayName: fullName,

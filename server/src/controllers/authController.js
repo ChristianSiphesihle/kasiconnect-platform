@@ -4,13 +4,8 @@ const authService = require("../services/authService");
 exports.register = async (req, res) => {
   //make register accessable publicly
   try {
-    const { fullName, email, password, role } = req.body;
-    const user = await authService.registerUser(
-      fullName,
-      email,
-      password,
-      role,
-    );
+    const { fullName, email, password, role } = req.body; //possible remove...
+    const user = await authService.registerUser(req.body);
     res.status(201).json({
       //201 creation code
       message: "User registerd successfully",
@@ -21,4 +16,11 @@ exports.register = async (req, res) => {
       message: error.message,
     });
   }
+};
+
+exports.getCurrentUser = async (req, res) => {
+  res.status(200).json({
+    message: "Current user retrieved successfully",
+    user: req.user,
+  });
 };
