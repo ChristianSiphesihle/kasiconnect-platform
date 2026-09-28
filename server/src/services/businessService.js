@@ -14,6 +14,7 @@ exports.createBusiness = async (businessData, ownerId) => {
     profileImage,
   } = businessData;
 
+  validateBusinessData(businessData);
   //protects the server nerver trust frontend fully  SERVER VALIDATION
   if (
     !businessName ||
@@ -104,7 +105,7 @@ exports.updateBusiness = async (businessId, updates, userId) => {
     "operatingHours",
     "profileImage",
   ];
-
+  validateBusinessData(updateData);
   const updateData = {};
   allowedFields.forEach((field) => {
     if (updates[field] !== undefined) {
@@ -136,4 +137,20 @@ exports.deleteBusiness = async (businessId, userId) => {
   }
 
   await businessReference.delete();
+};
+
+const validateBusinessData = (data) => {
+  const { email, phone } = data;
+
+  if (email !== undefined && !/^\S+@\S+\.\S+$/.test(email)) {
+    throw createError("Invalid email format", 400);
+  }
+
+  // Accepts 0821234567 or +27821234567 (spaces are ignored)
+  if (
+    phone !== undefined &&
+    !/^(\+27|0)\d{9}$/.test(String(phone).replace(/\s/g, ""))
+  ) {
+    throw createError("Invalid South African phone number", 400);
+  }
 };
