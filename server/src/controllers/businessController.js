@@ -17,3 +17,17 @@ exports.createBusiness = async (req, res) => {
     });
   }
 };
+
+exports.getBusinesses = async (req, res) => {
+  try {
+    const businesses = await businessService.getBusinesses();
+
+    res.status(200).json({
+      businesses,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};

@@ -28,7 +28,7 @@ exports.createBusiness = async (businessData, ownerId) => {
     throw new Error("Please provide all required business information.");
   }
 
-  const businessReference = db.collection("businessses").doc();
+  const businessReference = db.collection("businesses").doc();
 
   // creating the business object. -OOD which we will be able to use in the future
   const business = {
@@ -51,4 +51,18 @@ exports.createBusiness = async (businessData, ownerId) => {
   await businessReference.set(business);
 
   return business;
+};
+
+exports.getBusinesses = async () => {
+  console.log("→ starting Firestore query");
+  const snapshot = await db.collection("businessses").get();
+  console.log("→ Firestore query finished, doc count:", snapshot.size);
+
+  const businesses = [];
+
+  snapshot.forEach((businessDoc) => {
+    businesses.push(businessDoc.data()); //collectets the busineses as objectes , store them in an array
+  });
+
+  return businesses;
 };

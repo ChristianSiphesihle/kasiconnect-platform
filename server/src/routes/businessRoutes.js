@@ -5,5 +5,6 @@ const businessController = require("../controllers/businessController");
 const { verifyToken } = require("../middleware/authMiddleware");
 
 router.post("/", verifyToken, businessController.createBusiness);
+router.get("/", businessController.getBusinesses);
 
 module.exports = router;

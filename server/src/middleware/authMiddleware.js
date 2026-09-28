@@ -12,7 +12,7 @@ exports.verifyToken = async (req, res, next) => {
     }
     const token = authHeader.split(" ")[1];
     const decodedToken = await auth.verifyIdToken(token);
-    req.user = decodedToken;
+    req.user = decodedToken; // gets the verified user info
     next();
   } catch (error) {
     console.error(error);
