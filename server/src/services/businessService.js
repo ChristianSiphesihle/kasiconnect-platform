@@ -41,9 +41,9 @@ exports.createBusiness = async (businessData, ownerId) => {
     email,
     address,
     municipality,
-    ward,
+    ward: "",
     operatingHours,
-    profileImage,
+    profileImage: "",
 
     status: "Pending",
     createdAt: new Date(),
@@ -54,15 +54,86 @@ exports.createBusiness = async (businessData, ownerId) => {
 };
 
 exports.getBusinesses = async () => {
-  console.log("→ starting Firestore query");
-  const snapshot = await db.collection("businessses").get();
-  console.log("→ Firestore query finished, doc count:", snapshot.size);
+  const snapshot = await db.collection("businesses").get();
 
-  const businesses = [];
-
-  snapshot.forEach((businessDoc) => {
-    businesses.push(businessDoc.data()); //collectets the busineses as objectes , store them in an array
-  });
+  const businesses = snapshot.docs.map((doc) => doc.data());
 
   return businesses;
+};
+
+// Small helper: creates an error that carries an HTTP status code
+const createError = (message, statusCode) => {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  return error;
+};
+
+exports.getBusinessById = async (businessId) => {
+  const doc = await db.collection("businesses").doc(businessId).get();
+
+  if (!doc.exists) {
+    throw createError("Business not found", 404);
+  }
+
+  return doc.data();
+};
+
+exports.updateBusiness = async (businessId, updates, userId) => {
+  const businessReference = db.collection("businesses").doc(businessId);
+  const doc = await businessReference.get();
+
+  if (!doc.exists) {
+    throw createError("Business not found", 404);
+  }
+
+  // Ownership check: only the creator may edit
+  if (doc.data().ownerId !== userId) {
+    throw createError("You are not allowed to edit this business", 403);
+  }
+
+  // Whitelist: only these fields can be changed
+  const allowedFields = [
+    "businessName",
+    "description",
+    "category",
+    "phone",
+    "email",
+    "address",
+    "municipality",
+    "ward",
+    "operatingHours",
+    "profileImage",
+  ];
+
+  const updateData = {};
+  allowedFields.forEach((field) => {
+    if (updates[field] !== undefined) {
+      updateData[field] = updates[field];
+    }
+  });
+
+  if (Object.keys(updateData).length === 0) {
+    throw createError("No valid fields provided to update", 400);
+  }
+
+  updateData.updatedAt = new Date();
+
+  await businessReference.update(updateData);
+
+  return { ...doc.data(), ...updateData };
+};
+
+exports.deleteBusiness = async (businessId, userId) => {
+  const businessReference = db.collection("businesses").doc(businessId);
+  const doc = await businessReference.get();
+
+  if (!doc.exists) {
+    throw createError("Business not found", 404);
+  }
+
+  if (doc.data().ownerId !== userId) {
+    throw createError("You are not allowed to delete this business", 403);
+  }
+
+  await businessReference.delete();
 };
