@@ -5,6 +5,9 @@ app.use(express.json()); //JSON parsing (convert json to something firestor woul
 const authRoutes = require("./routes/authRoutes");
 const businessRoutes = require("./routes/businessRoutes");
 
+const cors = require("cors");
+app.use(cors());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/business", businessRoutes);
 //testing the endpoint
