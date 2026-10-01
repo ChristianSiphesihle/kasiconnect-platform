@@ -1,6 +1,7 @@
 const { db } = require("../config/firebase");
 
 exports.createBusiness = async (businessData, ownerId) => {
+  console.log("POST profileImage received:", businessData.profileImage);
   const {
     businessName,
     description,
@@ -80,6 +81,7 @@ exports.getBusinessById = async (businessId) => {
 };
 
 exports.updateBusiness = async (businessId, updates, userId) => {
+  console.log("PUT profileImage received:", updates.profileImage);
   const businessReference = db.collection("businesses").doc(businessId);
   const doc = await businessReference.get();
 
@@ -87,12 +89,10 @@ exports.updateBusiness = async (businessId, updates, userId) => {
     throw createError("Business not found", 404);
   }
 
-  // Ownership check: only the creator may edit
   if (doc.data().ownerId !== userId) {
     throw createError("You are not allowed to edit this business", 403);
   }
 
-  // Whitelist: only these fields can be changed
   const allowedFields = [
     "businessName",
     "description",
@@ -105,13 +105,19 @@ exports.updateBusiness = async (businessId, updates, userId) => {
     "operatingHours",
     "profileImage",
   ];
-  validateBusinessData(updateData);
+
+  // 1. create the object FIRST
   const updateData = {};
+
+  // 2. fill it from the whitelist
   allowedFields.forEach((field) => {
     if (updates[field] !== undefined) {
       updateData[field] = updates[field];
     }
   });
+
+  // 3. only now can we validate it
+  validateBusinessData(updateData);
 
   if (Object.keys(updateData).length === 0) {
     throw createError("No valid fields provided to update", 400);
