@@ -13,7 +13,11 @@ export default function Home() {
         Find, support and order from local township businesses, all in one
         place.
       </p>
-
+      <div className="hero-actions">
+        <Link to="/businesses" className="btn btn-light">
+          Browse businesses
+        </Link>
+      </div>
       {user ? (
         <p className="hero-note">
           Logged in as {user.email} ({user.role})

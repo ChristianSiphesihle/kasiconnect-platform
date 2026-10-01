@@ -17,8 +17,12 @@ export default function Navbar() {
           Kasi<span>Connect</span>
         </Link>
         <div className="nav-links">
+          <Link to="/businesses">Browse</Link>
           {user ? (
             <>
+              {user.role === "seller" && (
+                <Link to="/my-businesses">My Businesses</Link>
+              )}
               <span className="user-pill">
                 {user.fullName} · <em>{user.role}</em>
               </span>
