@@ -1,24 +1,21 @@
 const { auth } = require("../config/firebase");
 
 exports.verifyToken = async (req, res, next) => {
-  console.log("verifyToken middleware reached");
-
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({
-        message: "Unauthorized : No Token provided",
-      });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized : No Token provided" });
     }
-    const token = authHeader.split(" ")[1]; //extract the token from req
-    const decodedToken = await auth.verifyIdToken(token); //verify the token for the , then return user details
-    req.user = decodedToken;
+    const token = authHeader.split(" ")[1];
+    const decodedToken = await auth.verifyIdToken(token);
+    req.user = decodedToken; // the verified user info; req.user.uid is the owner id
     next();
   } catch (error) {
     console.error(error);
-
-    return res.status(401).json({
-      message: "Unauthorized: Invalid or expired token.",
-    });
+    return res
+      .status(401)
+      .json({ message: "Unauthorized: Invalid or expired token." });
   }
 };

@@ -13,6 +13,7 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
+db.settings({ preferRest: true });
 const auth = admin.auth();
 
 module.exports = {

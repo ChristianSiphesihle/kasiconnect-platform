@@ -8,8 +8,13 @@ app.use((req, res, next) => {
 });
 
 const authRoutes = require("./routes/authRoutes");
+const businessRoutes = require("./routes/businessRoutes");
+
+const cors = require("cors");
+app.use(cors());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/business", businessRoutes);
 //testing the endpoint
 app.get("/test-db", async (req, res) => {
   try {
