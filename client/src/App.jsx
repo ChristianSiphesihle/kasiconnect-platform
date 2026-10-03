@@ -10,6 +10,7 @@ import BusinessFormPage from "./Pages/business/BusinessFormPage";
 import MyBusinesses from "./Pages/business/MyBusinesses";
 import ManageProducts from "./Pages/products/ManageProducts";
 import ProductFormPage from "./Pages/products/ProductFormPage";
+import BrowseProducts from "./Pages/products/BrowseProducts";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
 
           <Route path="/businesses" element={<BusinessList />} />
+          <Route path="/products" element={<BrowseProducts />} />
           <Route path="/business/:id" element={<BusinessDetails />} />
 
           <Route

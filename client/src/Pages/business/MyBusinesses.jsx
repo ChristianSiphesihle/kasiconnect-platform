@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getBusinesses } from "../../api/businessApi";
 import BusinessCard from "../../components/BusinessCard";
 import { useAuth } from "../../context/AuthContext";
+import { getMyBusinesses } from "../../api/businessApi";
 
 export default function MyBusinesses() {
   const { user } = useAuth();
@@ -11,13 +12,11 @@ export default function MyBusinesses() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    getBusinesses()
-      .then((data) =>
-        setBusinesses(data.businesses.filter((b) => b.ownerId === user.uid)),
-      )
+    getMyBusinesses()
+      .then((data) => setBusinesses(data.businesses))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, [user.uid]);
+  }, []);
 
   return (
     <div>

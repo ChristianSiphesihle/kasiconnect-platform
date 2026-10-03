@@ -17,3 +17,11 @@ export const updateProduct = (id, data) =>
 
 export const deleteProduct = (id) =>
   apiRequest(`/products/${id}`, { method: "DELETE", authRequired: true });
+
+export const searchProducts = (filters = {}) => {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== "") params.append(key, value);
+  });
+  return apiRequest(`/products/search?${params.toString()}`);
+};

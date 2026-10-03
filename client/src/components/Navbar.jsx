@@ -17,7 +17,8 @@ export default function Navbar() {
           Kasi<span>Connect</span>
         </Link>
         <div className="nav-links">
-          <Link to="/businesses">Browse</Link>
+          <Link to="/businesses">Businesses</Link>
+          <Link to="/products">Products</Link>
           {user ? (
             <>
               {user.role === "seller" && (

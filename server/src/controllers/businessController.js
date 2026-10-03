@@ -65,3 +65,12 @@ exports.deleteBusiness = async (req, res) => {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
 };
+
+exports.getMyBusinesses = async (req, res) => {
+  try {
+    const businesses = await businessService.getMyBusinesses(req.user.uid);
+    res.status(200).json({ businesses });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ message: error.message });
+  }
+};

@@ -156,3 +156,68 @@ exports.deleteProduct = async (productId, userId) => {
 
   await productReference.delete();
 };
+
+const clean = (value) =>
+  typeof value === "string" ? value.trim().toLowerCase() : "";
+const toNumber = (value) => {
+  const number = parseFloat(value);
+  return Number.isFinite(number) ? number : null;
+};
+
+exports.searchProducts = async (filters) => {
+  const text = clean(filters.q);
+  const type = clean(filters.type);
+  const category = clean(filters.category);
+  const municipality = clean(filters.municipality);
+  const ward = clean(filters.ward);
+  const minPrice = toNumber(filters.minPrice);
+  const maxPrice = toNumber(filters.maxPrice);
+
+  // Two simple queries run side by side: approved businesses, available products
+  const [businessSnapshot, productSnapshot] = await Promise.all([
+    db.collection("businesses").where("status", "==", "Approved").get(),
+    db.collection("products").where("isAvailable", "==", true).get(),
+  ]);
+
+  const businesses = {};
+  businessSnapshot.forEach((doc) => {
+    businesses[doc.id] = doc.data();
+  });
+
+  return productSnapshot.docs
+    .map((doc) => doc.data())
+    .filter((p) => {
+      const b = businesses[p.businessId];
+      if (!b) return false; // its business is not approved (or was deleted)
+      if (p.stock === 0) return false; // sold out
+
+      if (type && p.type !== type) return false;
+      if (category && clean(b.category) !== category) return false;
+      if (municipality && !clean(b.municipality).includes(municipality))
+        return false;
+      if (ward && !clean(b.ward).includes(ward)) return false;
+      if (minPrice !== null && p.price < minPrice) return false;
+      if (maxPrice !== null && p.price > maxPrice) return false;
+
+      if (text) {
+        const haystack =
+          `${p.name} ${p.description} ${b.businessName}`.toLowerCase();
+        if (!haystack.includes(text)) return false;
+      }
+      return true;
+    })
+    .map((p) => {
+      const b = businesses[p.businessId];
+      return {
+        ...p,
+        business: {
+          businessId: b.businessId,
+          businessName: b.businessName,
+          category: b.category,
+          municipality: b.municipality,
+          ward: b.ward,
+        },
+      };
+    })
+    .sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
+};
