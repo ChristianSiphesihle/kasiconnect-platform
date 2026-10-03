@@ -48,3 +48,12 @@ exports.deleteProduct = async (req, res) => {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
 };
+
+exports.searchProducts = async (req, res) => {
+  try {
+    const products = await productService.searchProducts(req.query);
+    res.status(200).json({ products });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ message: error.message });
+  }
+};

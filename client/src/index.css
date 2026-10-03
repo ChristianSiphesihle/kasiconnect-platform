@@ -558,3 +558,36 @@ h1 {
   background: var(--danger);
   line-height: 1;
 }
+
+/* ---------- Product search ---------- */
+.filter-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+  background: var(--surface);
+  padding: 1rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin: 1rem 0 1.5rem;
+}
+.filter-panel input,
+.filter-panel select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fff;
+}
+.filter-panel .search-wide {
+  grid-column: 1 / -1;
+}
+.results-count {
+  color: var(--muted);
+  margin: 0 0 1rem;
+}
+.product-business {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}

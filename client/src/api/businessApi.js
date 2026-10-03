@@ -16,3 +16,6 @@ export const updateBusiness = (id, data) =>
 
 export const deleteBusiness = (id) =>
   apiRequest(`/business/${id}`, { method: "DELETE", authRequired: true });
+
+export const getMyBusinesses = () =>
+  apiRequest("/business/mine", { authRequired: true });
