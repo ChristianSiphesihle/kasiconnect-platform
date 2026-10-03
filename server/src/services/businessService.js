@@ -142,7 +142,16 @@ exports.deleteBusiness = async (businessId, userId) => {
     throw createError("You are not allowed to delete this business", 403);
   }
 
-  await businessReference.delete();
+  // delete the business's products together with the business
+  const productsSnapshot = await db
+    .collection("products")
+    .where("businessId", "==", businessId)
+    .get();
+
+  const batch = db.batch();
+  productsSnapshot.forEach((productDoc) => batch.delete(productDoc.ref));
+  batch.delete(businessReference);
+  await batch.commit();
 };
 
 const validateBusinessData = (data) => {
