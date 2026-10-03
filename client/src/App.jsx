@@ -8,6 +8,8 @@ import BusinessList from "./Pages/business/BusinessList";
 import BusinessDetails from "./Pages/business/BusinessDetails";
 import BusinessFormPage from "./Pages/business/BusinessFormPage";
 import MyBusinesses from "./Pages/business/MyBusinesses";
+import ManageProducts from "./Pages/products/ManageProducts";
+import ProductFormPage from "./Pages/products/ProductFormPage";
 
 export default function App() {
   return (
@@ -43,6 +45,31 @@ export default function App() {
             element={
               <ProtectedRoute role="seller">
                 <MyBusinesses />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/business/:businessId/products"
+            element={
+              <ProtectedRoute role="seller">
+                <ManageProducts />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/business/:businessId/products/new"
+            element={
+              <ProtectedRoute role="seller">
+                <ProductFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/products/:id/edit"
+            element={
+              <ProtectedRoute role="seller">
+                <ProductFormPage />
               </ProtectedRoute>
             }
           />
