@@ -591,3 +591,127 @@ h1 {
   font-size: 0.9rem;
   font-weight: 600;
 }
+
+/* ---------- Cart ---------- */
+.cart-link {
+  position: relative;
+}
+.cart-badge {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin-left: 0.35rem;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: #1f2933;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.add-to-cart {
+  margin-top: 0.6rem;
+  align-self: flex-start;
+}
+
+.cart-group {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.cart-group h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+.cart-row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto 90px 32px;
+  gap: 0.9rem;
+  align-items: center;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--border);
+}
+.cart-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--green-600), var(--green-900));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.cart-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cart-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.qty-control button {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  line-height: 1;
+}
+.cart-line-total {
+  text-align: right;
+  font-weight: 700;
+}
+.cart-remove {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--danger);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.cart-remove:hover:not(:disabled) {
+  background: var(--danger-bg) !important;
+}
+.cart-subtotal {
+  text-align: right;
+  margin: 0.6rem 0 0;
+}
+
+.cart-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.25rem;
+}
+.cart-summary h2 {
+  margin: 0;
+  color: var(--green-700);
+}
+
+@media (max-width: 600px) {
+  .cart-row {
+    grid-template-columns: 48px 1fr 32px;
+  }
+  .cart-row .qty-control,
+  .cart-row .cart-line-total {
+    grid-column: 2 / 3;
+  }
+}

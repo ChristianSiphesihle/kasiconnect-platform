@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { searchProducts } from "../../api/productApi";
 import ProductCard from "../../components/ProductCard";
 import { CATEGORIES } from "../../constants/categories";
+import AddToCartButton from "../../components/AddToCartButton";
 
 const EMPTY_FILTERS = {
   q: "",
@@ -136,6 +137,7 @@ export default function BrowseProducts() {
               {p.business.businessName} · {p.business.municipality}
               {p.business.ward && `, ${p.business.ward}`}
             </Link>
+            <AddToCartButton product={p} business={p.business} />
           </ProductCard>
         ))}
       </div>

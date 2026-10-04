@@ -4,6 +4,7 @@ import { getBusinessById, deleteBusiness } from "../../api/businessApi";
 import { getProducts } from "../../api/productApi";
 import ProductCard from "../../components/ProductCard";
 import { useAuth } from "../../context/AuthContext";
+import AddToCartButton from "../../components/AddToCartButton";
 
 export default function BusinessDetails() {
   const { id } = useParams();
@@ -112,7 +113,11 @@ export default function BusinessDetails() {
         ) : (
           <div className="grid">
             {products.map((p) => (
-              <ProductCard key={p.productId} product={p} />
+              <ProductCard key={p.productId} product={p}>
+                {!isOwner && (
+                  <AddToCartButton product={p} business={business} />
+                )}
+              </ProductCard>
             ))}
           </div>
         )}

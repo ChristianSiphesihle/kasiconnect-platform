@@ -11,6 +11,7 @@ import MyBusinesses from "./Pages/business/MyBusinesses";
 import ManageProducts from "./Pages/products/ManageProducts";
 import ProductFormPage from "./Pages/products/ProductFormPage";
 import BrowseProducts from "./Pages/products/BrowseProducts";
+import Cart from "./Pages/cart/Cart";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
 
           <Route path="/businesses" element={<BusinessList />} />
           <Route path="/products" element={<BrowseProducts />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/business/:id" element={<BusinessDetails />} />
 
           <Route
