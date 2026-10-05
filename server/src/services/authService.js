@@ -28,3 +28,9 @@ exports.registerUser = async (userData) => {
     throw error;
   }
 };
+
+exports.getUserProfile = async (uid) => {
+  const doc = await db.collection("users").doc(uid).get();
+  if (!doc.exists) return null;
+  return { uid, ...doc.data() };
+};

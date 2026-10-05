@@ -1,12 +1,23 @@
 const express = require("express"); //load the express library from node-modules
 const { db } = require("./config/firebase");
 const app = express(); // create the Express application(server)
+const productRoutes = require("./routes/productRoutes");
+
 app.use(express.json()); //JSON parsing (convert json to something firestor would understand)
+app.use((req, res, next) => {
+  console.log("Incoming:", req.method, req.url);
+  next();
+});
+
 const authRoutes = require("./routes/authRoutes");
 const businessRoutes = require("./routes/businessRoutes");
 
+const cors = require("cors");
+app.use(cors());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/business", businessRoutes);
+app.use("/api/products", productRoutes);
 //testing the endpoint
 app.get("/test-db", async (req, res) => {
   try {

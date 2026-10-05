@@ -141,3 +141,14 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+
+# Firebase service account key files (in case one is ever saved in the project)
+*firebase-adminsdk*.json
+*serviceAccount*.json
+
+# macOS junk files
+.DS_Store
+
+# Editor / IDE folders
+.idea/
